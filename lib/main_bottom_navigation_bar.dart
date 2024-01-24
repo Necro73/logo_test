@@ -31,35 +31,31 @@ class _MainBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          backgroundColor: const Color(0xFF1A1A18),
-          body: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
+    return Scaffold(
+      backgroundColor: const Color(0xFF1A1A18),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Главная',
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Главная',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list_alt),
-                label: 'Каталог',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Настройки',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: const Color(0xFF1A1A18),
-            onTap: _onItemTapped,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list_alt),
+            label: 'Каталог',
           ),
-        ),
-        SplashWidget(),
-      ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Настройки',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: const Color(0xFF1A1A18),
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
+

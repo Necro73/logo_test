@@ -1,43 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:logo_test/main_bottom_navigation_bar.dart';
 
-class SplashWidget extends StatefulWidget {
-  const SplashWidget({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<SplashWidget> createState() => _SplashWidgetState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late List<AnimationController> controllerColorOpacityList = [];
   late List<Animation<double>> animationColorOpacityList = [];
 
   @override
   void initState() {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
       controllerColorOpacityList.add(AnimationController(
         duration: const Duration(milliseconds: 1000),
         vsync: this,
       ));
-      controllerColorOpacityList[i].addListener(() => setState(() {}));
       animationColorOpacityList.add(CurvedAnimation(
         parent: controllerColorOpacityList[i],
         curve: Curves.linear,
       ));
     }
-    controllerColorOpacityList.last.value = 1;
+    controllerColorOpacityList[2].addListener(() => setState(() {}));
     playAnimation();
     super.initState();
   }
 
   Future<void> playAnimation() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    for (int i = 0; i < controllerColorOpacityList.length-1; i++) {
+    for (int i = 0; i < controllerColorOpacityList.length; i++) {
       await controllerColorOpacityList[i].animateTo(1);
     }
-    await Future.delayed(const Duration(milliseconds: 1000));
-    for (var controller in controllerColorOpacityList) {
-      controller.animateTo(0);
+    if (mounted) {
+      Navigator.of(context).pushReplacement(_createRoute());
     }
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      transitionDuration: const Duration(milliseconds: 700),
+      pageBuilder: (context, animation, secondaryAnimation) => const MainBottomNavigationBar(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const Offset begin = Offset(0.0, 1.0);
+        const Offset end = Offset.zero;
+
+        final Tween<Offset> tween = Tween(begin: begin, end: end);
+        final Animation<double> curvedAnimation = CurvedAnimation(
+          parent: animation,
+          curve: Curves.linear,
+        );
+
+        return FadeTransition(
+          opacity: curvedAnimation,
+          child: child,
+        );
+      },
+    );
   }
 
   @override
@@ -51,7 +72,7 @@ class _SplashWidgetState extends State<SplashWidget> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF1A1A18).withOpacity(animationColorOpacityList[3].value),
+      color: const Color(0xFF1A1A18),
       child: Padding(
         padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height / 4),
         child: Center(
@@ -71,7 +92,7 @@ class _SplashWidgetState extends State<SplashWidget> with TickerProviderStateMix
               ),
               const SizedBox(height: 16),
               Text(
-                'ХМЕЛЬНИЦКИЕ\nБУЛОЧНЫЕ',
+                'Тестовый\nТекст',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: const Color(0xFFFFFFFF).withOpacity(animationColorOpacityList[2].value),

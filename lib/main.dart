@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logo_test/main_bottom_navigation_bar.dart';
+import 'package:logo_test/splash_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MainBottomNavigationBar(),
+      home: const SplashPage(),
     );
   }
 }
